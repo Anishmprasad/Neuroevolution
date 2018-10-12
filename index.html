@@ -2,16 +2,18 @@
 <html>
 <head>
 	<title>NeuroEvolution : Flappy Bird</title>
-	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+  <link href="./css/styles.css" rel="stylesheet">
 </head>
 <body>
-	<canvas id="flappy" width="500" height="512"></canvas> <br/>
-	<button onclick="speed(60)">x1</button> 
-	<button onclick="speed(120)">x2</button> 
-	<button onclick="speed(180)">x3</button> 
-	<button onclick="speed(300)">x5</button> 
-	<button onclick="speed(0)">MAX</button> 
-	<br/>
+  <canvas id="flappy" width="500" height="512"></canvas>
+  <div class="actions">
+    <button onclick="speed(60)">x1</button> 
+    <button onclick="speed(120)">x2</button> 
+    <button onclick="speed(180)">x3</button> 
+    <button onclick="speed(300)">x5</button> 
+    <button onclick="speed(0)">MAX</button> 
+	</div>
 	<script src = "js/Neuroevolution.js"></script>
 	<script src = "js/game.js"></script>
 </body>

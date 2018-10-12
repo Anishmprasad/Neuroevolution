@@ -29,12 +29,29 @@ var images = {};
   window.setZeroTimeout = setZeroTimeout;
 })();
 
+var loadImages = function (sources, callback) {
+  var nb = 0;
+  var loaded = 0;
+  var imgs = {};
+  for (var i in sources) {
+    nb++;
+    imgs[i] = new Image();
+    imgs[i].src = sources[i];
+    imgs[i].onload = function () {
+      loaded++;
+      if (loaded == nb) {
+        callback(imgs);
+      }
+    }
+  }
+}
+
 window.onload = function () {
   var sprites = {
-    bird: "./img/bird.png",
-    background: "./img/background.png",
-    pipetop: "./img/pipetop.png",
-    pipebottom: "./img/pipebottom.png"
+    bird: "./images/bird.png",
+    background: "./images/background.png",
+    pipetop: "./images/pipetop.png",
+    pipebottom: "./images/pipebottom.png"
   }
 
   var start = function () {
@@ -48,11 +65,10 @@ window.onload = function () {
     game.display();
   }
 
-  start();
-  // loadImages(sprites, function (imgs) {
-  //   images = imgs;
-  //   start();
-  // })
+  loadImages(sprites, function (imgs) {
+    images = imgs;
+    start();
+  })
 }
 
 
@@ -202,7 +218,7 @@ Game.prototype.update = function () {
         // console.log(Neuvol.networkScore(this.gen[i], this.score))
         Neuvol.networkScore(this.gen[i], this.score);
         if (this.isItEnd()) {
-          this.start();
+          // this.start();
         }
       }
     }

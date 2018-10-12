@@ -84,6 +84,7 @@ Bird.prototype.flap = function () {
 
 Bird.prototype.update = function () {
   this.gravity += this.velocity;
+  console.log('gravity -> ',this.gravity)
   this.y += this.gravity;
 }
 
@@ -237,6 +238,7 @@ Game.prototype.update = function () {
         }
       )
     );
+    console.log("pipes",this.pipes)
   }
 
   this.interval++;
@@ -257,4 +259,53 @@ Game.prototype.update = function () {
       self.update();
     }, 1000 / FPS);
   }
+}
+
+Game.prototype.isItEnd = function () {
+  for (var i in this.birds) {
+    if (this.birds[i].alive) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+Game.prototype.display = function () {
+  this.ctx.clearRect(0, 0, this.width, this.height);
+  for (var i = 0; i < Math.ceil(this.width / images.background.width) + 1; i++) {
+    this.ctx.drawImage(images.background, i * images.background.width - Math.floor(this.backgroundx % images.background.width), 0)
+  }
+
+  for (var i in this.pipes) {
+    if (i % 2 == 0) {
+      this.ctx.drawImage(images.pipetop, this.pipes[i].x, this.pipes[i].y + this.pipes[i].height - images.pipetop.height, this.pipes[i].width, images.pipetop.height);
+    } else {
+      this.ctx.drawImage(images.pipebottom, this.pipes[i].x, this.pipes[i].y, this.pipes[i].width, images.pipetop.height);
+    }
+  }
+
+  this.ctx.fillStyle = "#FFC600";
+  this.ctx.strokeStyle = "#CE9E00";
+  for (var i in this.birds) {
+    if (this.birds[i].alive) {
+      this.ctx.save();
+      this.ctx.translate(this.birds[i].x + this.birds[i].width / 2, this.birds[i].y + this.birds[i].height / 2);
+      // this.ctx.rotate(Math.PI/2 * this.birds[i].gravity/20);
+      this.ctx.drawImage(images.bird, -this.birds[i].width / 2, -this.birds[i].height / 2, this.birds[i].width, this.birds[i].height);
+      this.ctx.restore();
+    }
+  }
+
+  this.ctx.fillStyle = "white";
+  this.ctx.font = "20px Oswald, sans-serif";
+  this.ctx.fillText("Score : " + this.score, 10, 25);
+  this.ctx.fillText("Max Score : " + this.maxScore, 10, 50);
+  this.ctx.fillText("Generation : " + this.generation, 10, 75);
+  this.ctx.fillText("Alive : " + this.alives + " / " + Neuvol.options.population, 10, 100);
+
+  var self = this;
+  requestAnimationFrame(function () {
+    self.display();
+  });
 }

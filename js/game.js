@@ -1,3 +1,10 @@
+var Neuvol;
+var game;
+var FPS = 60;
+var maxScore = 0;
+
+var images = {};
+
 (function () {
   var timeouts = [];
   var messageName = "zero-timeout-message";
@@ -21,6 +28,33 @@
 
   window.setZeroTimeout = setZeroTimeout;
 })();
+
+window.onload = function () {
+  var sprites = {
+    bird: "./img/bird.png",
+    background: "./img/background.png",
+    pipetop: "./img/pipetop.png",
+    pipebottom: "./img/pipebottom.png"
+  }
+
+  var start = function () {
+    Neuvol = new Neuroevolution({
+      population: 4,
+      network: [2, [2], 1],
+    });
+    game = new Game();
+    game.start();
+    game.update();
+    game.display();
+  }
+
+  start();
+  // loadImages(sprites, function (imgs) {
+  //   images = imgs;
+  //   start();
+  // })
+}
+
 
 // Bird 
 
@@ -115,6 +149,7 @@ var Game = function () {
   this.backgroundSpeed = 0.5;
   this.backgroundx = 0;
   this.maxScore = 0;
+  console.log(this.ctx)
 }
 
 Game.prototype.start = function () {
